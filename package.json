@@ -1,0 +1,24 @@
+{
+  "name": "buyers-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "doctor": "playwright --version && playwright install chromium",
+    "login:save": "tsx scripts/login-save-session.ts",
+    "buyers:export": "tsx scripts/export-buyers.ts",
+    "buyers:verify": "tsx scripts/verify-export.ts",
+    "buyers:run": "npm run buyers:export && npm run buyers:verify"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5",
+    "playwright": "^1.53.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
