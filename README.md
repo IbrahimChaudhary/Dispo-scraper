@@ -1,6 +1,6 @@
 # Buyers Scraper (8020REI)
 
-Node.js + Playwright scraper for exporting buyers data from the 8020REI buyers page.
+Python + Playwright scraper for exporting buyers data from the 8020REI buyers page.
 
 ## What this does
 
@@ -13,19 +13,26 @@ Node.js + Playwright scraper for exporting buyers data from the 8020REI buyers p
 
 ## Setup
 
-1. Install dependencies:
+1. Create and activate a virtual environment:
 
    ```bash
-   npm install
+   python -m venv .venv
+   .venv\Scripts\activate
    ```
 
-2. Install browser binary:
+2. Install Python dependencies:
 
    ```bash
-   npm run doctor
+   pip install -r requirements.txt
    ```
 
-3. Create `.env` from `.env.example` and fill values:
+3. Install Playwright browser:
+
+   ```bash
+   python -m playwright install chromium
+   ```
+
+4. Create `.env` from `.env.example` and fill values:
 
    ```bash
    cp .env.example .env
@@ -36,7 +43,7 @@ Node.js + Playwright scraper for exporting buyers data from the 8020REI buyers p
 ### Phase 1: Save login session
 
 ```bash
-npm run login:save
+python python/login_save_session.py
 ```
 
 Expected result:
@@ -46,7 +53,7 @@ Expected result:
 ### Phase 2 + 3: Export buyers data
 
 ```bash
-npm run buyers:export
+python python/export_buyers.py
 ```
 
 Expected result:
@@ -56,7 +63,7 @@ Expected result:
 ### Phase 4: Verify export
 
 ```bash
-npm run buyers:verify
+python python/verify_export.py
 ```
 
 Expected result:
@@ -67,10 +74,24 @@ Expected result:
 ### Single command run
 
 ```bash
-npm run buyers:run
+python python/export_buyers.py && python python/verify_export.py
 ```
 
 This runs export + verify in sequence.
+
+### Sequential pipeline (automatic chaining)
+
+Runs each step only after the previous one completes:
+
+```bash
+python python/run_pipeline.py
+```
+
+For repeated runs when session is already saved:
+
+```bash
+python python/run_pipeline.py --skip-login
+```
 
 ## Reliability behavior
 
@@ -89,7 +110,7 @@ This runs export + verify in sequence.
 5. Add arguments:
 
    ```text
-   /c cd /d C:\Users\user\Desktop\Web\Dispo-scraper && npm run buyers:run
+   /c cd /d C:\Users\user\Desktop\Web\Dispo-scraper && .venv\Scripts\python.exe python\export_buyers.py && .venv\Scripts\python.exe python\verify_export.py
    ```
 
 6. Finish and run task once manually to validate.
